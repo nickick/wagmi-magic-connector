@@ -1,5 +1,5 @@
 {
-  "name": "@everipedia/wagmi-magic-connector",
+  "name": "wagmi-magic-connector",
   "version": "0.10.0",
   "description": "wagmi connector to connect with Magic SDK",
   "main": "build/module/index.js",
@@ -30,11 +30,13 @@
     "@magic-ext/connect": "^6.1.0",
     "@magic-ext/oauth": "^7.1.0",
     "@magic-sdk/provider": "^13.1.0",
-    "@wagmi/core": "^0.8.14",
     "magic-sdk": "^13.1.0",
-    "tsc-esm-fix": "^2.20.10"
+    "react": "^18.2.0",
+    "tsc-esm-fix": "^2.20.10",
+    "wagmi": "^0.12.0"
   },
   "devDependencies": {
+    "@types/react": "^18.0.28",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "changeset": "^0.2.6",
