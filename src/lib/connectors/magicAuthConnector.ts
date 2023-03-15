@@ -5,6 +5,7 @@ import {
   MagicSDKExtensionsOption,
   SDKBase,
 } from '@magic-sdk/provider';
+import { normalizeChainId } from '@wagmi/core';
 import { Magic } from 'magic-sdk';
 import { Address, Chain, UserRejectedRequestError } from 'wagmi';
 
@@ -138,7 +139,7 @@ export class MagicAuthConnector extends MagicConnector {
     if (typeof networkOptions === 'object') {
       const chainID = networkOptions.chainId;
       if (chainID) {
-        return parseInt(chainID.toString());
+        return normalizeChainId(chainID);
       }
     }
     throw new Error('Chain ID is not defined');

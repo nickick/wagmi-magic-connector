@@ -4,13 +4,9 @@ import {
   MagicSDKAdditionalConfiguration,
   SDKBase,
 } from '@magic-sdk/provider';
-import {
-  Address,
-  Chain,
-  normalizeChainId,
-  UserRejectedRequestError,
-} from '@wagmi/core';
+import { normalizeChainId } from '@wagmi/core';
 import { Magic } from 'magic-sdk';
+import { Address, Chain, UserRejectedRequestError } from 'wagmi';
 
 import { MagicConnector, MagicOptions } from './magicConnector';
 
