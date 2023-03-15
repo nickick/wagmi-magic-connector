@@ -64,35 +64,29 @@ export class MagicConnectConnector extends MagicConnector {
 
       // open the modal and process the magic login steps
       if (!this.isModalOpen) {
-        const output = await this.getUserDetailsByForm(false, true, []);
         const magic = this.getMagicSDK();
 
         // LOGIN WITH MAGIC LINK WITH EMAIL
-        if (output.email) {
-          await magic.auth.loginWithEmailOTP({
-            email: output.email,
-          });
+        const accounts = await magic.wallet.connectWithUI();
+        let account = accounts[0] as Address;
 
-          const signer = await this.getSigner();
-          let account = (await signer.getAddress()) as Address;
-          if (!account.startsWith('0x')) account = `0x${account}`;
+        if (!account.startsWith('0x')) account = `0x${account}`;
 
-          // As we have no way to know if a user is connected to Magic Connect we store a connect timestamp
-          // in local storage
-          window.localStorage.setItem(
-            CONNECT_TIME_KEY,
-            String(new Date().getTime())
-          );
+        // As we have no way to know if a user is connected to Magic Connect we store a connect timestamp
+        // in local storage
+        window.localStorage.setItem(
+          CONNECT_TIME_KEY,
+          String(new Date().getTime())
+        );
 
-          return {
-            account,
-            chain: {
-              id: chainId,
-              unsupported: false,
-            },
-            provider,
-          };
-        }
+        return {
+          account,
+          chain: {
+            id: chainId,
+            unsupported: false,
+          },
+          provider,
+        };
       }
       throw new UserRejectedRequestError('User rejected request');
     } catch (error) {
