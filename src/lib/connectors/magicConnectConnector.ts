@@ -109,6 +109,7 @@ export class MagicConnectConnector extends MagicConnector {
     if (!this.magicSDK) {
       this.magicSDK = new Magic(this.magicOptions.apiKey, {
         ...this.magicSdkConfiguration,
+        network: this.magicOptions.network,
         extensions: [new ConnectExtension()],
       });
     }
