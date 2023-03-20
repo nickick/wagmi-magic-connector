@@ -28,7 +28,6 @@ export class MagicConnectConnector extends MagicConnector {
   }
 
   async connect({ chainId }: { chainId?: number } = {}) {
-    console.log('chainId from the package that is being specified', chainId);
     if (!this.magicOptions.apiKey)
       throw new Error('Magic API Key is not provided.');
     try {
