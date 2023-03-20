@@ -27,7 +27,8 @@ export class MagicConnectConnector extends MagicConnector {
     this.magicSdkConfiguration = config.options.magicSdkConfiguration;
   }
 
-  async connect() {
+  async connect({ chainId }: { chainId?: number } = {}) {
+    console.log('chainId from the package that is being specified', chainId);
     if (!this.magicOptions.apiKey)
       throw new Error('Magic API Key is not provided.');
     try {
@@ -43,11 +44,19 @@ export class MagicConnectConnector extends MagicConnector {
       const isAuthenticated = await this.isAuthorized();
 
       // Check if we have a chainId, in case of error just assign 0 for legacy
-      let chainId: number;
+      let id: number;
+      let unsupported: boolean;
       try {
-        chainId = await this.getChainId();
+        id = await this.getChainId();
+        unsupported = this.isChainUnsupported(id);
+        if (chainId && id !== chainId) {
+          const chain = await this.switchChain(chainId);
+          id = chain.id;
+          unsupported = this.isChainUnsupported(id);
+        }
       } catch (e) {
-        chainId = 0;
+        id = 0;
+        unsupported = false;
       }
 
       // if there is a user logged in, return the user
@@ -55,8 +64,8 @@ export class MagicConnectConnector extends MagicConnector {
         return {
           provider,
           chain: {
-            id: chainId,
-            unsupported: false,
+            id,
+            unsupported,
           },
           account: await this.getAccount(),
         };
@@ -79,11 +88,20 @@ export class MagicConnectConnector extends MagicConnector {
           String(new Date().getTime())
         );
 
+        // switch to chain if provided
+        id = await this.getChainId();
+        unsupported = this.isChainUnsupported(id);
+        if (chainId && id !== chainId) {
+          const chain = await this.switchChain(chainId);
+          id = chain.id;
+          unsupported = this.isChainUnsupported(id);
+        }
+
         return {
           account,
           chain: {
-            id: chainId,
-            unsupported: false,
+            id,
+            unsupported,
           },
           provider,
         };
@@ -113,6 +131,7 @@ export class MagicConnectConnector extends MagicConnector {
         extensions: [new ConnectExtension()],
       });
     }
+
     return this.magicSDK;
   }
 
