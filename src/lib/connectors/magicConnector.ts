@@ -4,7 +4,6 @@ import { InstanceWithExtensions, SDKBase } from '@magic-sdk/provider';
 import { RPCProviderModule } from '@magic-sdk/provider/dist/types/modules/rpc-provider';
 import { ethers, Signer } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
-import { EthNetworkConfiguration } from 'magic-sdk';
 import { Address, Chain, Connector } from 'wagmi';
 import { AbstractProvider } from 'web3-core';
 
@@ -14,7 +13,6 @@ const IS_SERVER = typeof window === 'undefined';
 
 export interface MagicOptions {
   apiKey: string;
-  network: EthNetworkConfiguration;
   accentColor?: string;
   isDarkMode?: boolean;
   customLogo?: string;

@@ -113,7 +113,11 @@ export class MagicConnectConnector extends MagicConnector {
 
   async getChainId(): Promise<number> {
     const networkOptions = this.magicSdkConfiguration?.network;
-    if (typeof networkOptions === 'object') {
+    if (networkOptions === 'mainnet') {
+      return 1;
+    } else if (networkOptions === 'goerli') {
+      return 5;
+    } else if (typeof networkOptions === 'object') {
       const chainID = networkOptions.chainId;
       if (chainID) {
         return normalizeChainId(chainID);
@@ -126,7 +130,6 @@ export class MagicConnectConnector extends MagicConnector {
     if (!this.magicSDK) {
       this.magicSDK = new Magic(this.magicOptions.apiKey, {
         ...this.magicSdkConfiguration,
-        network: this.magicOptions.network,
         extensions: [new ConnectExtension()],
       });
     }
