@@ -2,6 +2,7 @@ import { ConnectExtension } from '@magic-ext/connect';
 import { OAuthExtension, OAuthProvider } from '@magic-ext/oauth';
 import { InstanceWithExtensions, SDKBase } from '@magic-sdk/provider';
 import { RPCProviderModule } from '@magic-sdk/provider/dist/types/modules/rpc-provider';
+import { normalizeChainId } from '@wagmi/core';
 import { ethers, Signer } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 import { Address, Chain, Connector } from 'wagmi';
@@ -104,7 +105,7 @@ export abstract class MagicConnector extends Connector {
   }
 
   protected onChainChanged(chainId: string | number): void {
-    const id = parseInt(chainId.toString());
+    const id = normalizeChainId(chainId.toString());
     const unsupported = this.isChainUnsupported(id);
     this.emit('change', { chain: { id, unsupported } });
   }
