@@ -105,7 +105,7 @@ export abstract class MagicConnector extends Connector {
   }
 
   protected onChainChanged(chainId: string | number): void {
-    const id = normalizeChainId(chainId.toString());
+    const id = normalizeChainId(chainId);
     const unsupported = this.isChainUnsupported(id);
     this.emit('change', { chain: { id, unsupported } });
   }
