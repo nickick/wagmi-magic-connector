@@ -1,10 +1,10 @@
 {
-  "name": "wagmi-magic-connector",
+  "name": "@origin/wagmi-magic-connector",
   "version": "0.11.7",
   "description": "wagmi connector to connect with Magic SDK",
   "main": "build/module/index.js",
   "type": "module",
-  "repository": "https://github.com/EveripediaNetwork/wagmi-magic-connector",
+  "repository": "https://github.com/nickick/wagmi-magic-connector",
   "license": "MIT",
   "keywords": [
     "wagmi",
@@ -27,13 +27,12 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.24.0",
-    "@magic-ext/connect": "^6.7.0",
-    "@magic-ext/oauth": "^7.6.0",
-    "@magic-sdk/provider": "^13.6.0",
-    "magic-sdk": "^13.6.0",
-    "react": "^18.2.0",
+    "@magic-ext/connect": "^9.1.0",
+    "@magic-ext/oauth": "^11.1.3",
+    "@magic-sdk/provider": "^17.1.2",
+    "magic-sdk": "^17.1.3",
     "tsc-esm-fix": "^2.20.10",
-    "wagmi": "^0.12.0"
+    "wagmi": "^0.12.12"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
