@@ -107,6 +107,7 @@ export class MagicConnectConnector extends MagicConnector {
       }
       throw new UserRejectedRequestError('User rejected request');
     } catch (error) {
+      console.log(error);
       throw new UserRejectedRequestError('Something went wrong');
     }
   }
