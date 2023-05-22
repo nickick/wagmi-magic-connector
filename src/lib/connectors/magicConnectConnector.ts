@@ -107,7 +107,9 @@ export class MagicConnectConnector extends MagicConnector {
       }
       throw new UserRejectedRequestError('User rejected request');
     } catch (error) {
-      console.log(error);
+      // try removing the localStorage item we check to see if a user is logged in
+      // on an error.
+      this.disconnect();
       throw new UserRejectedRequestError('Something went wrong');
     }
   }
