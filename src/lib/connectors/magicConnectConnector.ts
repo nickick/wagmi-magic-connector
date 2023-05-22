@@ -8,7 +8,7 @@ import { normalizeChainId } from '@wagmi/core';
 import { Magic } from 'magic-sdk';
 import { Address, Chain, UserRejectedRequestError } from 'wagmi';
 
-import { MagicConnector, MagicOptions } from './magicConnector';
+import { MagicConnector, MagicOptions } from './magicConnector.js';
 
 interface MagicConnectOptions extends MagicOptions {
   magicSdkConfiguration?: MagicSDKAdditionalConfiguration;
