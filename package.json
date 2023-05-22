@@ -1,6 +1,6 @@
 {
   "name": "@origin/wagmi-magic-connector",
-  "version": "0.11.13",
+  "version": "0.11.14",
   "description": "wagmi connector to connect with Magic SDK",
   "main": "build/module/index.js",
   "type": "module",
