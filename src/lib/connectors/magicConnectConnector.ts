@@ -73,9 +73,9 @@ export class MagicConnectConnector extends MagicConnector {
       // open the modal and process the magic login steps
       if (!this.isModalOpen) {
         const magic = this.getMagicSDK();
-
         // LOGIN WITH MAGIC LINK WITH EMAIL
         const accounts = await magic.wallet.connectWithUI();
+
         let account = accounts[0] as Address;
 
         if (!account.startsWith('0x')) account = `0x${account}`;
@@ -110,6 +110,7 @@ export class MagicConnectConnector extends MagicConnector {
       // try removing the localStorage item we check to see if a user is logged in
       // on an error.
       this.disconnect();
+      console.log(error);
       throw new UserRejectedRequestError('Something went wrong');
     }
   }

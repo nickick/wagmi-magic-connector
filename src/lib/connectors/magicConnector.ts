@@ -4,11 +4,11 @@ import { InstanceWithExtensions, SDKBase } from '@magic-sdk/provider';
 import { RPCProviderModule } from '@magic-sdk/provider/dist/types/modules/rpc-provider';
 import { normalizeChainId } from '@wagmi/core';
 import { ethers, Signer } from 'ethers';
-import { getAddress } from 'ethers/lib/utils';
+import { getAddress } from 'ethers/lib/utils.js';
 import { Address, Chain, Connector } from 'wagmi';
 import { AbstractProvider } from 'web3-core';
 
-import { createModal } from '../modal/view';
+import { createModal } from '../modal/view.js';
 
 const IS_SERVER = typeof window === 'undefined';
 
@@ -45,11 +45,18 @@ export abstract class MagicConnector extends Connector {
   }
 
   async getAccount(): Promise<Address> {
-    const provider = new ethers.providers.Web3Provider(
-      await this.getProvider()
-    );
-    const signer = provider.getSigner();
-    const account = await signer.getAddress();
+    let account;
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        await this.getProvider()
+      );
+      const signer = provider.getSigner();
+      account = await signer.getAddress();
+    } catch (err) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      account = await signer.getAddress();
+    }
     if (account.startsWith('0x')) return account as Address;
     return `0x${account}`;
   }
@@ -83,11 +90,21 @@ export abstract class MagicConnector extends Connector {
   }
 
   async getSigner(): Promise<Signer> {
-    const provider = new ethers.providers.Web3Provider(
-      await this.getProvider()
-    );
-    const signer = await provider.getSigner();
-    return signer;
+    let signer;
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        await this.getProvider()
+      );
+      signer = await provider.getSigner();
+      // try getting address. This will throw if there's no address on the provider
+      await signer.getAddress();
+      return signer;
+    } catch (err) {
+      // if we catch, try using the window.ethereum provider for the Metamask case
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      signer = await provider.getSigner();
+      return signer;
+    }
   }
 
   async isAuthorized() {
@@ -101,7 +118,9 @@ export abstract class MagicConnector extends Connector {
 
   protected onAccountsChanged(accounts: string[]): void {
     if (accounts.length === 0) this.emit('disconnect');
-    else this.emit('change', { account: getAddress(accounts[0]) });
+    else {
+      this.emit('change', { account: getAddress(accounts[0]) });
+    }
   }
 
   protected onChainChanged(chainId: string | number): void {
